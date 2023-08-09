@@ -1,0 +1,55 @@
+* {
+    transition: .2s;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background-color: transparent;
+    outline: none;
+    position: relative;
+}
+
+body {
+    background-color: black;
+}
+
+.flex {display: flex;}
+.row {flex-direction: row;}
+.column {flex-direction: column;}
+.center {align-items: center; justify-content: center; text-align: center;}
+.space-between {justify-content: space-between;}
+
+button, input {
+    border: .1rem solid white;
+    border-radius: .5rem;
+    text-align: center;
+    font-size: 1rem;
+}
+button:hover {
+    opacity: 70%;
+}
+button:active {
+    opacity: 50%;
+    translate: 0 -.5rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: white wavy underline;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    appearance: textfield;
+    -moz-appearance:textfield; /* Firefox */
+}
+
+@media only screen and (max-width: 750px) {
+}
