@@ -86,35 +86,37 @@
     </StickyHeader>
     <div style="margin: 1rem;">
     </div>
-    {#each riddle??[] as hint,i}
-        <div class="hint flex center" style="align-items: flex-start;">
-            <div class="code">
-                {#each hint.code as digit}
-                    <RiddleNumber bind:value={digit} max={base-1} disabled={!contenteditable}/>
-                {/each}
-            </div>
-            <div class="flex">
-                <div class="flex column">
-                    <div class="included">
-                        <RiddleNumber disabled={!contenteditable} max={codeLength} bind:value={hint.included}/>
-                    </div>
-                    <label for="included">{isMobile?"incl":"included"}</label>
+    <div class="hints">
+        {#each riddle??[] as hint,i}
+            <div class="hint flex center" style="align-items: flex-start;">
+                <div class="code">
+                    {#each hint.code as digit}
+                        <RiddleNumber bind:value={digit} max={base-1} disabled={!contenteditable}/>
+                    {/each}
                 </div>
-                
-                <div class="flex column">
-                    <div class="sorted">
-                        <RiddleNumber disabled={!contenteditable} max={hint.included} bind:value={hint.sorted}/>
+                <div class="flex">
+                    <div class="flex column">
+                        <div class="included">
+                            <RiddleNumber disabled={!contenteditable} max={codeLength} bind:value={hint.included}/>
+                        </div>
+                        <label for="included">{isMobile?"incl":"included"}</label>
                     </div>
-                    <label for="sorted">{isMobile?"sort":"sorted"}</label>
+                    
+                    <div class="flex column">
+                        <div class="sorted">
+                            <RiddleNumber disabled={!contenteditable} max={hint.included} bind:value={hint.sorted}/>
+                        </div>
+                        <label for="sorted">{isMobile?"sort":"sorted"}</label>
+                    </div>
                 </div>
+                {#if contenteditable}
+                <button class="delete-button" on:click={() => {riddleStore.update(hints=>riddle.filter((e,j)=>j!=i))}}>
+                    x
+                </button>
+                {/if}
             </div>
-            {#if contenteditable}
-            <button class="delete-button" on:click={() => {riddleStore.update(hints=>riddle.filter((e,j)=>j!=i))}}>
-                x
-            </button>
-            {/if}
-        </div>
-    {/each}
+        {/each}
+    </div>
     {#if contenteditable}
         <button id="addButton" style="margin: 1.5rem; padding: .2rem 1rem;"
         on:click={add}>
@@ -137,10 +139,15 @@
         margin: .4rem;
     }
 
+    .code {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
     .mobile-inst-box {width: 50%; margin-top: 1rem;}
     .mobile-inst {height: 1rem;}
 
-    .delete-button {translate: 0 2rem;}
+    .delete-button {translate: 0 2rem; margin-left: 0;}
 
     .included {border-color: orange !important; color: orange;}
     .sorted {border-color: limegreen !important; color: limegreen;}

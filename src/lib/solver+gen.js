@@ -265,7 +265,7 @@ f = x => 5*Math.tan(0.23*x);
 //f(x) = 5*tan(0.23x), ceil(f(codeLength)) for maxHints
 //  if max codeLength is 6 and min is 3 (otherwise, negative numbers are possible)
 export function generateRiddle(options={}) {
-    let {solution, codeLength, maxHints, base, debug, maxTries} = options
+    let {solution, codeLength, maxHints, base, debug, maxTries, nullFunc} = options
     
     if(debug) console.time('total')
 
@@ -286,6 +286,10 @@ export function generateRiddle(options={}) {
     if(debug) console.log(`solution: ${solution.join(', ')} | maxIncluded: ${maxIncluded}`)
     
     do {
+        if(nullFunc && nullFunc()) {
+            return null;
+        }
+
         if(riddle.length >= maxHints)
             riddle.splice(0, riddle.length)
 
@@ -349,28 +353,35 @@ const loc = import.meta.url;
 const MAX_TRIES = 10;
 
 onmessage = (ev) => {
-    const riddle = generateRiddle({...ev.data, maxTries: MAX_TRIES});
+    const riddle = generateRiddle(
+        {
+            ...ev.data.options,
+            maxTries: MAX_TRIES,
+            nullFunc: () => ev.data.resultObj.riddle
+        }
+    );
+    
     if(riddle) {
         postMessage(riddle);
     }
+    close();
 }
 
 export function generateRiddleMulti(options, split, resultObj, callback) {
     if(!window.Worker) return;
     delete resultObj.riddle;
-
-    let finishedWorkers = 0;
-    //console.log(lib);
+    
     for(let i=0; i<split; i++) {
         const worker = new Worker(new URL(loc).href, {type:'module'});
         
-        worker.postMessage(options);
+        if(!resultObj.riddle)
+            worker.postMessage({options, resultObj});
+        
         worker.onmessage = (ev) => {
             if(!resultObj.riddle) {
                 resultObj.riddle = ev.data;
                 callback();
             }
-            finishedWorkers++;
         };
     }
 }

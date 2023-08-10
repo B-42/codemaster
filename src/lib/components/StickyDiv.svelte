@@ -23,6 +23,9 @@
         background-color: black;
         border: .1rem dashed white;
         z-index: 10;
+        min-height: 0;
+        overflow-y: auto;
+        justify-content: flex-start;
     }
     .min-button {
         border: none;
