@@ -13,7 +13,7 @@
         }, 16, resultObj, () => {resultObj = resultObj});
     }
 </script>
-<h1>generate</h1>
+
 <RiddleView showControls={true} fileSettings={{import:false, export:true}} bind:codeLength={codeLength} bind:base={base} bind:riddle={resultObj.riddle}>
-    <button on:click={handleGenerate}>generate</button>
+    <button on:click={handleGenerate} slot="header">generate</button>
 </RiddleView>

@@ -2,6 +2,6 @@
     import StickyDiv from "./StickyDiv.svelte";
 </script>
 
-<StickyDiv style={'bottom: 0; padding-bottom: 0;'} {...$$props}>
+<StickyDiv style='top: 0; padding-top: 0; background-color: black;' {...$$props}>
     <slot/>
 </StickyDiv>

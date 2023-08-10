@@ -40,6 +40,7 @@
         width: 70%;
     }
     .bigbox * {
-        margin: 0 1rem;
+        margin: 1rem 1rem;
+        margin-bottom: 0;
     }
 </style>

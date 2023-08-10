@@ -2,14 +2,14 @@
 </script>
 
 <div class="bigbox flex column center">
-    <div style="width: var(--width)">
+    <div style="width: min(calc(100vw - 4rem), var(--width));">
         <slot/>
     </div>
 </div>
 
 <style>
     .bigbox>* {
-        width: var(--width);
+        width: min(calc(100vw - 4rem), var(--width));
         text-align: left;
     }
     .bigbox {

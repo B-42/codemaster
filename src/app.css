@@ -51,5 +51,12 @@ input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
 
+*:disabled {
+    opacity: 100%;
+}
+
 @media only screen and (max-width: 750px) {
+    button:hover {
+        opacity: 100%;
+    }
 }

@@ -4,6 +4,8 @@
     import RiddleControls from "./RiddleControls.svelte";
     import RiddleFileHandler from "./RiddleFileHandler.svelte";
     import RiddleNumber from "./RiddleNumber.svelte";
+    import StickyHeader from "./StickyHeader.svelte";
+    import StickyFooter from "./StickyFooter.svelte";
 
     export let codeLength = 3,
     riddle,
@@ -63,22 +65,26 @@
 </script>
 
 <div class="bigbox flex column center">
-    {#if isMobile}
+    <StickyHeader minimizable={true}>
+        {#if isMobile}
         <div class="mobile-inst-box">
             <div class="flex center mobile-inst space-between"><p>incl</p><p>=</p><p class="included">included</p></div>
             <div class="flex center mobile-inst space-between"><p>sort</p><p>=</p><p class="sorted">sorted</p></div>
         </div>
-    {/if}
-    {#if contenteditable || fileSettings}
-        <RiddleFileHandler options={contenteditable ? CE_FILE_SETTINGS : fileSettings}
-        bind:riddle={riddle}
-        onimport={handleImport}/>
-    {/if}
-    {#if showControls || contenteditable}
-    <RiddleControls bind:codeLength={codeLength} bind:base={base}/>
-    {/if}
-    <div style="margin-bottom: 1rem;">
-        <slot/>
+        {/if}
+        {#if contenteditable || fileSettings}
+            <RiddleFileHandler options={contenteditable ? CE_FILE_SETTINGS : fileSettings}
+            bind:riddle={riddle}
+            onimport={handleImport}/>
+        {/if}
+        {#if showControls || contenteditable}
+            <RiddleControls bind:codeLength={codeLength} bind:base={base}/>
+        {/if}
+        {#if $$slots.header}
+            <slot name="header"></slot>
+        {/if}
+    </StickyHeader>
+    <div style="margin: 1rem;">
     </div>
     {#each riddle??[] as hint,i}
         <div class="hint flex center" style="align-items: flex-start;">
@@ -115,18 +121,24 @@
             +
         </button>
     {/if}
+    {#if $$slots.footer}
+        <StickyFooter>
+            <slot name="footer"/>
+        </StickyFooter>
+    {/if}
 </div>
 
 <style>
     .bigbox {
-        width: 100%; height: 100%;
+        width: 100%;
+        margin-bottom: var(--toolbar-height);
     }
     .hint>* {
         margin: .4rem;
     }
 
-    .mobile-inst-box {width: 50%; padding: 1rem;}
-    .mobile-inst {height: 1.5rem;}
+    .mobile-inst-box {width: 50%; margin-top: 1rem;}
+    .mobile-inst {height: 1rem;}
 
     .delete-button {translate: 0 2rem;}
 

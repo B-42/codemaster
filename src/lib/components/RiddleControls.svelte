@@ -2,7 +2,7 @@
     export let codeLength, base;
 </script>
 
-<div style="margin: 2rem;" class="controls">
+<div class="controls">
     <div class="flex center space-between">
         <label for="codeLength" style="text-align:left;">code length</label>
         <div class="flex center space-between">
@@ -20,8 +20,8 @@
 
 <style>
     .controls {
-        border: .1rem dashed white;
-        border-radius: 1rem;
+        /*border: .1rem dashed white;
+        border-radius: 1rem;*/
         padding: 1rem;
         width: 70%;
     }
