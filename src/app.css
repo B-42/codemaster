@@ -76,29 +76,35 @@ input[type=range]::-ms-track {
 input[type=range]::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
-    width: .5rem;
-    height: 1.3rem;
-    background: white;
+    width: var(--slider-thumb-width);
+    height: var(--slider-thumb-height);
+    background: var(--slider-thumb-color);
 }
 
 input[type=range]::-moz-range-thumb {
     appearance: none;
     -webkit-appearance: none;
-    width: .5rem;
-    height: 1.3rem;
-    background: white;
+    width: var(--slider-thumb-width);
+    height: var(--slider-thumb-height);
+    background: var(--slider-thumb-color);
 }
 
 input[type=range]::-ms-thumb {
     appearance: none;
     -webkit-appearance: none;
-    width: .5rem;
-    height: 1.3rem;
-    background: white;
+    width: var(--slider-thumb-width);
+    height: var(--slider-thumb-height);
+    background: var(--slider-thumb-color);
 }
 
 *:disabled {
     opacity: 100%;
+}
+
+:root {
+    --slider-thumb-width: .8rem;
+    --slider-thumb-height: 1.3rem;
+    --slider-thumb-color: white;
 }
 
 @media only screen and (max-width: 750px) {

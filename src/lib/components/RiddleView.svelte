@@ -12,7 +12,7 @@
     contenteditable=false,
     base = 10,
     showControls=false,
-    fileSettings;
+    fileSettings={};
 
     const CE_FILE_SETTINGS = {import: true, export: true};
 

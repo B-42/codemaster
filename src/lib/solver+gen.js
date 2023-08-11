@@ -286,7 +286,7 @@ export function generateRiddle(options={}) {
     if(debug) console.log(`solution: ${solution.join(', ')} | maxIncluded: ${maxIncluded}`)
     
     do {
-        if(nullFunc && nullFunc()) {
+        if( x >= maxTries || (nullFunc && nullFunc()) ) {
             return null;
         }
 
@@ -330,7 +330,9 @@ export function generateRiddle(options={}) {
         ), 0)
 
         if(debug) console.time('shuffle')
-        while(getNumSorted() != sorted) shuffle(code)
+        while(getNumSorted() != sorted) {
+            shuffle(code)
+        }
         if(debug) console.timeEnd('shuffle')
 
         riddle.push({code, included, sorted})
@@ -338,8 +340,7 @@ export function generateRiddle(options={}) {
 
         x++
     } while(
-        ( solveAttempt.length != 1 || !solveAttempt[0].every((e,i) => solution[i] == e) )
-        && (maxTries == -1 ? true : x < maxTries)
+        solveAttempt.length != 1 || !solveAttempt[0].every((e,i) => solution[i] == e)
     )
 
 
@@ -361,27 +362,45 @@ onmessage = (ev) => {
         }
     );
     
-    if(riddle) {
-        postMessage(riddle);
-    }
+    postMessage(riddle);
     close();
 }
 
-export function generateRiddleMulti(options, split, resultObj, callback) {
-    if(!window.Worker) return;
-    delete resultObj.riddle;
+export function generateRiddleMulti(options, statusManager, workerManager) {
+    statusManager.status = 0;
     
-    for(let i=0; i<split; i++) {
+    if(!window.Worker) return;
+
+    workerManager.reset();
+
+    delete statusManager.riddle;
+    statusManager.status = 1;
+
+    workerManager.onupdate();
+
+    for(let i=0; i<workerManager.numWorkers; i++) {
         const worker = new Worker(new URL(loc).href, {type:'module'});
+        workerManager.workers.push(worker);
         
-        if(!resultObj.riddle)
-            worker.postMessage({options, resultObj});
+        worker.postMessage({options, resultObj: statusManager});
         
         worker.onmessage = (ev) => {
-            if(!resultObj.riddle) {
-                resultObj.riddle = ev.data;
-                callback();
+            workerManager.finishedWorkers++;
+            
+            const riddle = ev.data;
+
+            if(riddle && !statusManager.riddle) {
+                statusManager.riddle = riddle;
+                statusManager.status = 2;
+                workerManager.reset();
+            } else if(statusManager.status != 2) {
+                if(workerManager.finishedWorkers < workerManager.numWorkers)
+                    statusManager.status = 1;
+                else
+                    statusManager.status = 3;
             }
+
+            workerManager.onupdate();
         };
     }
 }
