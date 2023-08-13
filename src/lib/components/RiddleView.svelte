@@ -133,7 +133,6 @@
 <style>
     .bigbox {
         width: 100%;
-        margin-bottom: var(--toolbar-height);
     }
     .hint>* {
         margin: .4rem;

@@ -5,8 +5,6 @@
     import { base } from '$app/paths';
 
     const subpages = [
-        "solve",
-        "generate",
         "about"
     ]
     
@@ -33,24 +31,27 @@
     <header>
         <div class="flex center space-between">
             <nav class="flex center">
-                <div style="flex-grow: 6; text-align: left;">
+                <div style="flex-grow: 6; text-align: left; margin-left: 1rem;">
                     <a href={base} class={
                         $page.route.id==base || $page.route.id=='/'?'current':''
-                    }>Codemaster</a>
+                    }>Home</a>
                 </div>
-                {#each subpages as subpage, i}
-                    <div>
-                        <a href={base+"/"+subpage} class={
-                            $page.route.id==base+'/'+subpage || $page.route.id=='/'+subpage ? 'current' : ''
-                        }>{subpage}</a>
-                    </div>
-                    {#if i < subpages.length - 1}
-                        <hr>
-                    {/if}
-                {/each}
+                <div class="flex space-between" style="text-align: right; margin-right: 1rem;">
+                    {#each subpages as subpage, i}
+                        <div>
+                            <a href={base+"/"+subpage} class={
+                                $page.route.id==base+'/'+subpage || $page.route.id=='/'+subpage ? 'current' : ''
+                            }>{subpage}</a>
+                        </div>
+                        {#if i < subpages.length - 1}
+                            <hr>
+                        {/if}
+                    {/each}
+                </div>
             </nav>
         </div>
     </header>
+    <hr>
     <main>
         <slot></slot>
     </main>
@@ -61,7 +62,7 @@
 <style>
     nav {
         width: 100%;
-        height: 8vh;
+        height: 4vh;
     }
     nav div {
         flex-grow: 1;

@@ -4,7 +4,7 @@
 
     let codeLength=3, base=10, statusClass='', statusMessage='';
     
-    const NUM_WORKERS = 8,
+    const NUM_WORKERS = 10,
         workerManager = {
             numWorkers: NUM_WORKERS, workers: [], finishedWorkers: 0,
             onupdate: () => {

@@ -259,18 +259,15 @@ const randItem = arr => arr[ Math.floor( Math.random() * arr.length ) ],
 shuffle = arr => arr.sort((a,b) => {
     if(Math.random() < .5) return -1
     else return 1
-}),
-f = x => 5*Math.tan(0.23*x);
+});
 
-//f(x) = 5*tan(0.23x), ceil(f(codeLength)) for maxHints
-//  if max codeLength is 6 and min is 3 (otherwise, negative numbers are possible)
 export function generateRiddle(options={}) {
     let {solution, codeLength, maxHints, base, debug, maxTries, nullFunc} = options
     
     if(debug) console.time('total')
 
     codeLength = codeLength || 3
-    maxHints = maxHints && maxHints > 1 ? maxHints : 5 //Math.ceil(f(codeLength))
+    maxHints = maxHints && maxHints > 1 ? maxHints : Math.max(5, codeLength);
     base = base || 10
     debug = !!debug
     maxTries = maxTries || -1
@@ -351,7 +348,7 @@ export function generateRiddle(options={}) {
 
 const loc = import.meta.url;
 
-const MAX_TRIES = 10;
+const MAX_TRIES = 9;
 
 onmessage = (ev) => {
     const riddle = generateRiddle(

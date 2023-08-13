@@ -102,7 +102,7 @@ input[type=range]::-ms-thumb {
 }
 
 :root {
-    --slider-thumb-width: .8rem;
+    --slider-thumb-width: 1.5rem;
     --slider-thumb-height: 1.3rem;
     --slider-thumb-color: white;
 }
